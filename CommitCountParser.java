@@ -4,6 +4,7 @@
 * @email vmaudgalya@gmail.com
 *
 * [Instructions]
+*  0. Go into the git directory
 *  1. Run this command in your terminal: 
 *  git log --author='GITHUB_USER.NAME_HERE' --oneline --shortstat > out.txt
 *
